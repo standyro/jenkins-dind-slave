@@ -1,0 +1,19 @@
+mkdir -p /efs/.ssh/
+whoami
+sudo chown -R jenkins:jenkins /efs/.ssh
+chmod 700 /efs/.ssh
+sudo chmod 600 /efs/.ssh/id_rsa
+sudo chmod 600 /efs/.ssh/id_rsa.pub
+sudo cp /efs/keys/id_rsa /home/jenkins/.ssh/id_rsa
+sudo cp /efs/keys/id_rsa.pub /home/jenkins/.ssh/id_rsa.pub
+sudo chown -R jenkins:jenkins /home/jenkins/.ssh
+sudo chmod 700 /home/jenkins/.ssh
+sudo chmod 600 /home/jenkins/.ssh/id_rsa
+sudo chmod 600 /home/jenkins/.ssh/id_rsa.pub
+sudo chown jenkins:jenkins /home/jenkins/ -R
+sudo chmod o-rwx /home/jenkins/ -R
+
+ls ~/.ssh
+ls -la ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa
+cat /home/jenkins/.ssh/id_rsa
