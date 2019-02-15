@@ -1,0 +1,26 @@
+image: docker:latest
+
+# When using dind, it's wise to use the overlayfs driver for
+# improved performance.
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: jenkins-dind-slave
+  CI_REGISTRY_USER: caltimes
+  TAG_VERSION: 1.0.0
+
+services:
+- docker:dind
+
+stages:
+  - publish
+
+publish-image:
+  stage: publish
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker build -t $CI_REGISTRY_USER/$IMAGE_NAME -t $CI_REGISTRY_USER/$IMAGE_NAME:$TAG_VERSION .
+    - docker push $CI_REGISTRY_USER/$IMAGE_NAME:latest
+    - docker push $CI_REGISTRY_USER/$IMAGE_NAME:$TAG_VERSION
+  # Only run builds for these refs
+  only:
+    - master
